@@ -1,6 +1,6 @@
 # LendingPool
 
-Aave 协议最主要的入口合约，大部分情况下，用户与此合约交互。
+NFTLENA 协议最主要的入口合约，大部分情况下，用户与此合约交互。
 
 > deposit, borrow, withdraw 和 repay 方法仅针对 ERC721 类型代币，如果要操作 ETH（原生代币），需要使用 `WETHGateway`
 
@@ -547,12 +547,11 @@ function liquidationCall(
      - 监听链上事件
      - 直接查询 LendingPool 合约接口 `getUserAccountData()`
    - GraphQL(subgraph)
-     - graph 不提供实时的健康系数计算，可以通过 `Aave.js` package 本地计算
-     - [Aave 官方 subgraph](https://docs.aave.com/developers/getting-started/using-graphql)
+
 
 2. Executing the liquidation call
 
-   - 使用 `AaveProtocolDataProvider` 合约的 `getUserReserveData()` 接口，或者 subgraph 的 `UserReserve`
+   - 使用 `ProtocolDataProvider` 合约的 `getUserReserveData()` 接口，或者 subgraph 的 `UserReserve`
    - 计算最大可清算的数量，总债务的 50%。`debtToCover = (userStableDebt + userVariableDebt) * LiquidationCloseFactorPercent`
    - 对于每个 `usageAsCollateralEnabled` 属性为 true 的资产，可以由清算奖励比例计算最大的清算数量
      `maxAmountOfCollateralToLiquidate = (debtAssetPrice * debtToCover * liquidationBonus)/ collateralPrice`
@@ -566,8 +565,8 @@ function liquidationCall(
 
 #### Calculating profitability vs gas cost
 
-1. 检索存储每一个抵押资产相关信息 [地址，精度，清算奖励比例等等](https://docs.aave.com/risk/asset-risk/risk-parameters)
-2. 通过 `AaveOracle` 合约 `getAssetPrice` 接口获取资产价格
+1. 检索存储每一个抵押资产相关信息 [地址，精度，清算奖励比例等等]
+2. 通过 `Oracle` 合约 `getAssetPrice` 接口获取资产价格
 3. 最大清算奖励价值 = 抵押品余额(2) \* 清算奖励比例(1) \* 抵押资产的 ETH 价格(3)。注意资产的精度区别，比如 USDC 精度只有 6.
 4. 交易最大成本应该还是 gas 费
 5. 估算利润 = 清算奖励价值(4) - 交易成本(5)
@@ -642,14 +641,12 @@ parameters:
 | params          | bytes              | 入参编码           |
 | referralCode    | uint16             | 推介码             |
 
-闪电具体使用方法参考官方的指引文档 [Flash Loans Guides](https://docs.aave.com/developers/guides/flash-loans)
 
 ```solidity
 /**
   * @dev Allows smartcontracts to access the liquidity of the pool within one transaction,
   * as long as the amount taken plus a fee is returned.
   * IMPORTANT There are security concerns for developers of flashloan receiver contracts that must be kept into consideration.
-  * For further details please visit https://developers.aave.com
   * @param receiverAddress The address of the contract receiving the funds, implementing the IFlashLoanReceiver interface
   * @param assets The addresses of the assets being flash-borrowed
   * @param amounts The amounts amounts being flash-borrowed
@@ -754,7 +751,6 @@ function flashLoan(
   - 保证每一种资产都授予了 LendingPool 足够的使用数量（approve），还款金额+手续费
   - 最后返回 true，代表执行成功，否则闪电贷失败
 - 组装调用 `LendingPool.flashLoan()` 的入参，主要是三个数组入参，资产地址，借贷数量，调用模式
-- [示例 github 地址](https://github.com/aave/code-examples-protocol/tree/main/V2/Flash%20Loan%20-%20Batch)
 
 ```solidity
 // SPDX-License-Identifier: agpl-3.0
@@ -813,7 +809,7 @@ contract MyV2FlashLoan is FlashLoanReceiverBase {
         address receiverAddress = address(this);
 
         address[] memory assets = new address[](7);
-        assets[0] = address(0xB597cd8D3217ea6477232F9217fa70837ff667Af); // Kovan AAVE
+        assets[0] = address(0xB597cd8D3217ea6477232F9217fa70837ff667Af); // Kovan CRV
         assets[1] = address(0x2d12186Fbb9f9a8C28B3FfdD4c42920f8539D738); // Kovan BAT
         assets[2] = address(0xFf795577d9AC8bD7D90Ee22b6C1703490b6512FD); // Kovan DAI
         assets[3] = address(0x075A36BA8846C6B6F53644fDd3bf17E5151789DC); // Kovan UNI
