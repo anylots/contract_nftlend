@@ -61,15 +61,15 @@ mapping(address => mapping(address => uint256)) debets;
         //将NFT从协议归还给用户
         IERC721(nftAsset).safeTransferFrom(
             this,
-            msg.sender,
+            user,
             nftTokenId
         );
 
         //删除NFT保存记录
-        delete nftAssets[msg.sender][nftAsset];
+        delete nftAssets[user][nftAsset];
 
         //发送事件
-        emit withdrawNFT(msg.sender, address(this), nftAsset,nftTokenId);
+        emit withdrawNFT(user, address(this), nftAsset,nftTokenId);
     }
         
 ```
@@ -84,8 +84,9 @@ mapping(address => mapping(address => uint256)) debets;
         require(user != address(0), "AssetsRecordHub: user is the zero address");
         require(debetAsset != address(0), "AssetsRecordHub: debetAsset is the zero address");
 
-        //记录债务,这里只做账务记录，实际资产转移在外围合约
-        nftAssets[user][debetAsset] = amount;
+        //记录债务, 借出资产
+        debets[user][debetAsset] = amount;
+        IERC20(debetAsset).safeTransferFrom(this, user, amount);
 
         //发送事件
         emit lendAsset(msg.sender, address(this), nftAsset,nftTokenId);
@@ -99,12 +100,13 @@ mapping(address => mapping(address => uint256)) debets;
 还入资产
 
 ```solidity
-    function repayAsset(string debetAsset, address user) public onlyLendingPool{
+    function repayAsset(string debetAsset,uint256 amount, address user) public onlyLendingPool{
         require(user != address(0), "AssetsRecordHub: user is the zero address");
         require(debetAsset != address(0), "AssetsRecordHub: debetAsset is the zero address");
 
-        //核销债务，这里只做账务记录，实际资产转移在外围合约
-        delete nftAssets[user][debetAsset];
+        //核销债务，归还资产
+        delete debets[user][debetAsset];
+        IERC20(debetAsset).safeTransferFrom(user, this, amount);
 
         //发送事件
         emit repayAsset(msg.sender, address(this), nftAsset,nftTokenId);
