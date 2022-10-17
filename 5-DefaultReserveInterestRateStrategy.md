@@ -10,7 +10,7 @@
 - `U_optimal` 调节利率的界限，低于此会鼓励借贷，高于此会鼓励抵押
 - `R_slope1` 低于界限时，利率增长的斜率
 - `R_slope2` 高于界限时，利率增长的斜率
-- `R_base` 基准利率，浮动基准利率提前设定（aave 社区决定），固定利率由预言机提供多个市场的利率进行加权平均得到
+- `R_base` 基准利率，浮动基准利率提前设定，固定利率由预言机提供多个市场的利率进行加权平均得到
 
 当 `U < U_optimal` 时：
 
@@ -26,7 +26,6 @@
 
 所有全局变量都是 `immutable` 类型，即初始化赋值后不可更改。
 
-`ray` 是 aave 中规定的计数方法，精度为 27 的数值类型, 即 `1ray = 1e27`
 
 | variable name            | 公式对应        | 变量类型 |
 | ------------------------ | --------------- | -------- |
@@ -38,7 +37,6 @@
 | \_stableRateSlope1       | R_slope1 (固定) | ray      |
 | \_stableRateSlope2       | R_slope2 (固定) | ray      |
 
-针对各个资产的不同利率相关参数详见 [aave borrow interest rate](https://docs.aave.com/risk/liquidity-risk/borrow-interest-rate)
 
 ## methods
 
@@ -91,7 +89,6 @@ struct CalcInterestRatesLocalVars {
   * NOTE This function is kept for compatibility with the previous DefaultInterestRateStrategy interface.
   * New protocol implementation uses the new calculateInterestRates() interface
   * @param reserve The address of the reserve
-  * @param availableLiquidity The liquidity available in the corresponding aToken
   * @param totalStableDebt The total borrowed from the reserve a stable rate
   * @param totalVariableDebt The total borrowed from the reserve at a variable rate
   * @param averageStableBorrowRate The weighted average of all the stable rate loans

@@ -41,7 +41,7 @@ Reserve 的主要变量
 <!-- ${LI}_t=(1+\Delta{T_{year}}*R_t)*{LI}_{t-1}$ -->
 <img src="https://render.githubusercontent.com/render/math?math={LI}_t=(1%2B\Delta{T_{year}}*R_t)*{LI}_{t-1}" style="display: block;margin: 24px auto;" />
 
-**注意：** liquidty 池子资产流动性的数量是 amountScaled ，即任意时刻存入的抵押资产数量，都会被缩放至 t_0 池子创建时刻的数量，详细逻辑参考 [amount and amountScaled](./3-AToken.md#amount%20and%20amountScaled)
+**注意：** liquidty 池子资产流动性的数量是 amountScaled ，即任意时刻存入的抵押资产数量，都会被缩放至 t_0 池子创建时刻的数量，详细逻辑参考 [amount and amountScaled]
 
 ### variableBorrowIndex
 
@@ -175,7 +175,6 @@ parameters:
 
 - reserve 需要更新的目标资产数据
 - reserveAddress 资产地址
-- aTokenAddress aToken 地址
 - liquidityAdded 增加的流动性数量
 - liquidityTaken 减少的流动性数量
 
@@ -202,7 +201,6 @@ struct UpdateInterestRatesLocalVars {
 function updateInterestRates(
   DataTypes.ReserveData storage reserve,
   address reserveAddress,
-  address aTokenAddress,
   uint256 liquidityAdded,
   uint256 liquidityTaken
 ) internal {
@@ -231,7 +229,6 @@ function updateInterestRates(
     vars.newVariableRate // 浮动类型债务的最新利率
   ) = IReserveInterestRateStrategy(reserve.interestRateStrategyAddress).calculateInterestRates(
     reserveAddress,
-    aTokenAddress,
     liquidityAdded,
     liquidityTaken,
     vars.totalStableDebt,

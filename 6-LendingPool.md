@@ -530,7 +530,6 @@ function liquidationCall(
 
 #### Liquidation process
 
-详情参见 [Liquidations guide](https://docs.aave.com/developers/guides/liquidations)
 
 0. Prerequisites
 
