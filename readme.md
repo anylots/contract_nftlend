@@ -1,6 +1,5 @@
-# AAVE contract guide
+# NFTlena contract guide
 
-![Protocol Overview](https://files.gitbook.com/v0/b/gitbook-28427.appspot.com/o/assets%2F-M3C77KySce4HXyLqkEq%2F-MNbklkK7vNPshPbrCZ-%2F-MNbxHseq3eFT7u8gEo3%2Fimage.png?alt=media&token=61a006eb-8d2b-4de6-8498-05fc889feed3)
 
 ## contract constructure
 
@@ -10,7 +9,7 @@
 
 #### LendingPool
 
-AAve 协议最主要的入口合约，大部分情况下，用户与此合约交互。
+nftlena 协议最主要的入口合约，大部分情况下，用户与此合约交互。
 
 - deposit()
 - borrow()
@@ -35,21 +34,11 @@ AAve 协议最主要的入口合约，大部分情况下，用户与此合约交
 
 资产和债务记录合约
 
-#### Stable and Variable Debt Tokens
-
-当用户从协议中贷出资产，获得 1:1 数量的 debt tokens。债务代币的大部分 ERC20 方法都被禁用，因为债务是不可转让。
-
-详细内容请戳这里 :point_right: [DebtToken](./4-DebtToken.md)
 
 ### Supporting contracts
 
 辅助合约
 
-#### LendingPoolCollateralManager
-
-抵押品管理合约，执行具体的清算逻辑。LendingPool 合约会通过 `delegatecall` 调用该合约进行清算。
-
-详细内容请戳这里 :point_right: [LendingPoolCollateralManager](./8-LendingPoolCollateralManager.md)
 
 #### LendingPoolConfigurator
 
