@@ -13,15 +13,14 @@ nftlena - 高效安全的NFT存取借贷协议
 nftlena 协议最主要的入口合约，大部分情况下，用户与此合约交互。
 
 - deposit()
+- withdraw()
 - borrow()
 - repay()
-- swapBorrowRateMode()
-- setUserUseReserveAsCollateral()
-- withdraw()
 - flashloan()
+- swapBorrowRateMode()
 - liquidationCall()
 
-详细内容请戳这里 :point_right: [LendingPool](./9-LendingPool.md)
+详细内容请戳这里 :point_right: [LendingPool](./6-LendingPool.md)
 
 #### AssetsRecordHub
 
@@ -33,7 +32,7 @@ nftlena 协议资产记录合约，用于记录用户的存取和借贷。
 - repayAsset()
 
 
-详细内容请戳这里 :point_right: [LendingPool](./7-AssetsRecordHub.md)
+详细内容请戳这里 :point_right: [AssetsRecordHub](./7-AssetsRecordHub.md)
 
 #### LendingPoolAddressesProvider
 

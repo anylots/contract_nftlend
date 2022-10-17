@@ -1,4 +1,4 @@
-# NFTPool
+# AssetsRecordHub
 
 资产记录合约
 
