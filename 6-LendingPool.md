@@ -56,7 +56,7 @@ function deposit(
   reserve.updateInterestRates(asset, amount, 0);
 
   // 把你的资产传给协议
-  AssetsRecordHub.depositNFT(asset, nftTokenId);
+  AssetsRecordHub.depositNFT(asset, nftTokenId, msg.sender);
 
 
   // 广播事件
@@ -132,7 +132,7 @@ function withdraw(
   }
 
   // 把资产从协议传给用户
-  AssetsRecordHub.withdrawNFT(asset, nftTokenId);
+  AssetsRecordHub.withdrawNFT(asset, nftTokenId, msg.sender);
 
   emit Withdraw(asset, msg.sender, to, amountToWithdraw);
 
