@@ -62,7 +62,7 @@ nftlena 协议资产记录合约，用于记录用户的存取和借贷。
 
 利率更新策略合约。
 
-详细内容请戳这里 :point_right: [ReserveInterestRateStrategy](./7-DefaultReserveInterestRateStrategy.md)
+详细内容请戳这里 :point_right: [ReserveInterestRateStrategy](./5-DefaultReserveInterestRateStrategy.md)
 
 #### Price Oracle Provider
 
