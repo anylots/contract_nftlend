@@ -23,6 +23,18 @@ nftlena 协议最主要的入口合约，大部分情况下，用户与此合约
 
 详细内容请戳这里 :point_right: [LendingPool](./9-LendingPool.md)
 
+#### AssetsRecordHub
+
+nftlena 协议资产记录合约，用于记录用户的存取和借贷。
+
+- depositNFT()
+- withdrawNFT()
+- lendAsset()
+- repayAsset()
+
+
+详细内容请戳这里 :point_right: [LendingPool](./7-AssetsRecordHub.md)
+
 #### LendingPoolAddressesProvider
 
 主要的地址存储合约，针对特定的不同市场（不同公链的 NFTlena）都有不同的该合约。外部合约调用该合约能得到最新的合约地址（NFTlena 其他模块的合约地址）。
