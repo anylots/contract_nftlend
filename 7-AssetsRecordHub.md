@@ -25,7 +25,7 @@ mapping(address => mapping(address => uint256)) debets;
 存入NFT资产，记录用户存入的NFT合约地址和nftTokenId
 
 ```solidity
-    function depositNFT(address nftAsset, uint256 nftTokenId) public {
+    function depositNFT(address nftAsset, uint256 nftTokenId) public onlyLendingPool {
         //这里校验调用者必须是NFT的所有者
         require(
             IERC721(nftAsset).ownerOf(nftTokenId) == msg.sender,
@@ -52,7 +52,7 @@ mapping(address => mapping(address => uint256)) debets;
 提取NFT资产，修改用户存入的NFT合约地址和nftTokenId
 
 ```solidity
-    function withdrawNFT(address nftAsset, uint256 nftTokenId) public {
+    function withdrawNFT(address nftAsset, uint256 nftTokenId) public onlyLendingPool{
         //这里校验调用者必须是NFT的所有者
         require(
             nftAssets[msg.sender][nftAsset] == nftTokenId,
@@ -80,9 +80,11 @@ mapping(address => mapping(address => uint256)) debets;
 借出资产
 
 ```solidity
-    function lendAsset(string debetAsset, uint256 amount, address user) public {
-        
-        //记录债务
+    function lendAsset(string debetAsset, uint256 amount, address user) public onlyLendingPool{
+        require(user != address(0), "AssetsRecordHub: user is the zero address");
+        require(debetAsset != address(0), "AssetsRecordHub: debetAsset is the zero address");
+
+        //记录债务,这里只做账务记录，实际资产转移在外围合约
         nftAssets[user][debetAsset] = amount;
 
         //发送事件
@@ -97,9 +99,11 @@ mapping(address => mapping(address => uint256)) debets;
 还入资产
 
 ```solidity
-    function repayAsset(string debetAsset, address user) public {
+    function repayAsset(string debetAsset, address user) public onlyLendingPool{
+        require(user != address(0), "AssetsRecordHub: user is the zero address");
+        require(debetAsset != address(0), "AssetsRecordHub: debetAsset is the zero address");
         
-        //核销债务
+        //核销债务，这里只做账务记录，实际资产转移在外围合约
         delete nftAssets[user][debetAsset];
 
         //发送事件
