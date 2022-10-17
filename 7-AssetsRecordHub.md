@@ -7,16 +7,22 @@
 
 
 ## 变量
-用户nft资产表
+用户NFT资产表, 记录抵押品信息
 ```solidity
 //用户address=> NFT_address=> NFT_TokenId
 mapping(address => mapping(address => uint256)) nftAssets;
 ```
 
-用户债务表
+用负债表，记录用户贷出的资产
 ```solidity
 //用户address=> debetAddress=> amount
 mapping(address => mapping(address => uint256)) debets;
+```
+
+ERC20存款信息，作为贷出资产
+```solidity
+//用户address=> assets=> amount
+mapping(address => mapping(address => uint256)) assets;
 ```
 
 
